@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    node
+    <script>
+      document.write(process.versions.node)
+    </script>, Chromium
+    <script>
+      document.write(process.versions.chrome)
+    </script>, and Electron
+    <script>
+      document.write(process.versions.electron)
+    </script>.
+    <button id="basic-noti">通知</button>
+    <button id="screenshot">截图</button>
+    <script>
+      // You can also require other files to run in this process
+      require('./assets/js/index.js')
+    </script>
+  </body>
+</html>

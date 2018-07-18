@@ -1,0 +1,37 @@
+{
+  "name": "ququbao",
+  "productName": "ququbao",
+  "version": "1.0.1",
+  "description": "ququbao pc application",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "package32": "electron-forge package --arch=ia32",
+    "make": "electron-forge make",
+    "make32": "electron-forge make --arch=ia32",
+    "publish": "electron-forge publish",
+    "lint": "eslint src --color"
+  },
+  "keywords": [],
+  "author": "chan",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TTifa/ququbao.git"
+  },
+  "config": {
+    "forge": "./forge.config.js"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0",
+    "shortcut-capture": "^1.0.0"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.22",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.22",
+    "@electron-forge/maker-zip": "^6.0.0-beta.22",
+    "electron": "2.0.5",
+    "standard": "^11.0.1"
+  }
+}
