@@ -13,10 +13,17 @@ module.exports = {
       }
     },
     {
-      'name': '@electron-forge/maker-zip',
-      'platforms': [
+      name: '@electron-forge/maker-zip',
+      platforms: [
         'darwin'
       ]
+    },
+    {
+      name: '@electron-forge/maker-dmg',
+      config: {
+        background: 'src/assets/img/dmg-background.png',
+        format: 'UFLO'
+      }
     }
   ],
   github_repository: {

@@ -1,6 +1,8 @@
-const { app, dialog, autoUpdater, BrowserWindow, Menu, Tray } = require('electron')
+const { app, dialog, autoUpdater, BrowserWindow, Menu, Tray, globalShortcut, ipcMain } = require('electron')
 const menu = require('./tray.js')
 const config = require('../package.json')
+const ShortcutCapture = require('shortcut-capture')
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
   app.quit()
@@ -9,7 +11,8 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
-const feedUrl = 'http://localhost:10013/latest'
+let tray = null
+const feedUrl = 'http://owrlb7i7j.bkt.clouddn.com/ququbao'
 
 function createWindow () {
   // Create the browser window.
@@ -33,7 +36,6 @@ function createWindow () {
   })
 }
 
-let tray = null
 function createTray () {
   tray = new Tray(`${__dirname}/assets/icon/tray.png`)
   const contextMenu = Menu.buildFromTemplate([
@@ -48,7 +50,7 @@ function createTray () {
     { type: 'separator' },
     { label: '退出', type: 'normal', click: () => { menu.quit(tray) } }
   ])
-  tray.setToolTip('This is ququbao application.')
+  tray.setToolTip('蛐蛐宝')
   tray.setContextMenu(contextMenu)
   tray.on('click', () => {
     if (mainWindow == null) {
@@ -64,26 +66,24 @@ function sendMessage (text) {
 }
 
 function initUpdates () {
-  // const platform = `${process.platform}_${process.arch}`;
-  // const version = app.getVersion();
-
-  autoUpdater.setFeedURL(feedUrl)
+  // const platform = `${process.platform}_${process.arch}`
+  autoUpdater.setFeedURL(`${feedUrl}/${process.platform}/latest`)
 
   autoUpdater.on('error', (e) => {
     sendMessage(e)
   })
 
-  autoUpdater.on('checking-for-update', (e) => {
-    sendMessage(`checking for update:${e}`)
+  autoUpdater.on('checking-for-update', () => {
+    sendMessage('checking for update')
   })
 
   autoUpdater.on('update-available', (e) => {
-    sendMessage(`update-available:${e}`)
+    sendMessage('update-available')
   })
 
   autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
     const dialogOpts = {
-      type: 'info',
+      type: 'question',
       buttons: ['Restart', 'Later'],
       title: 'Application Update',
       message: process.platform === 'win32' ? releaseName : releaseNotes,
@@ -98,9 +98,12 @@ function initUpdates () {
   autoUpdater.checkForUpdates()
 }
 
+let _shortcutCapture
 function initScreenShot () {
+  _shortcutCapture = new ShortcutCapture()
   // 注册截图快捷键
-  // globalShortcut.register('ctrl+alt+s', () => screenshort.shortcutCapture())
+  globalShortcut.register('ctrl+alt+s', () => _shortcutCapture.shortcutCapture())
+  ipcMain.on('global-shortcut-capture', (event, arg) => _shortcutCapture.shortcutCapture())
 }
 
 var shouldQuit = app.makeSingleInstance(function (commandLine, workingDirectory) {
@@ -123,7 +126,7 @@ if (shouldQuit) {
 app.on('ready', () => {
   createWindow()
   createTray()
-
+  initScreenShot()
   mainWindow.webContents.on('did-finish-load', () => {
     sendMessage(config.version)
     sendMessage(process.argv[1])

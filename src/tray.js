@@ -2,9 +2,12 @@ const { Notification, app, BrowserWindow } = require('electron')
 
 function quit (tray) {
   try {
-    app.quit()
     tray.destroy()
-    // app.exit()
+    BrowserWindow.getAllWindows()
+      .forEach(item => {
+        if (!item.isDestroyed()) item.destroy()
+      })
+    app.quit()
   } catch (err) {
     console.log(err)
   }
