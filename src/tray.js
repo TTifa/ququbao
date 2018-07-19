@@ -1,8 +1,10 @@
 const { Notification, app, BrowserWindow } = require('electron')
 
-function quit () {
+function quit (tray) {
   try {
-    app.exit()
+    app.quit()
+    tray.destroy()
+    // app.exit()
   } catch (err) {
     console.log(err)
   }

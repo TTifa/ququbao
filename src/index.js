@@ -1,7 +1,5 @@
-const { app, dialog, autoUpdater, BrowserWindow, Menu, Tray, globalShortcut, ipcMain } = require('electron')
-const ShortcutCapture = require('shortcut-capture')
+const { app, dialog, autoUpdater, BrowserWindow, Menu, Tray } = require('electron')
 const menu = require('./tray.js')
-
 const config = require('../package.json')
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
@@ -48,7 +46,7 @@ function createTray () {
     },
     { label: '打开', type: 'normal', click: menu.newWindow },
     { type: 'separator' },
-    { label: '退出', type: 'normal', click: menu.quit }
+    { label: '退出', type: 'normal', click: () => { menu.quit(tray) } }
   ])
   tray.setToolTip('This is ququbao application.')
   tray.setContextMenu(contextMenu)
@@ -101,13 +99,22 @@ function initUpdates () {
 }
 
 function initScreenShot () {
-  const screenshort = new ShortcutCapture()
   // 注册截图快捷键
-  globalShortcut.register('ctrl+alt+s', () => screenshort.shortcutCapture())
-  ipcMain.on('screen-shot', (event, arg) => {
-    console.log(arg)
-    screenshort.shortcutCapture()
-  })
+  // globalShortcut.register('ctrl+alt+s', () => screenshort.shortcutCapture())
+}
+
+var shouldQuit = app.makeSingleInstance(function (commandLine, workingDirectory) {
+  // 当另一个实例运行的时候，这里将会被调用，我们需要激活应用的窗口
+  if (mainWindow) {
+    if (mainWindow.isMinimized()) mainWindow.restore()
+    mainWindow.focus()
+  }
+  return true
+})
+
+// 这个实例是多余的实例，需要退出
+if (shouldQuit) {
+  app.quit()
 }
 
 // This method will be called when Electron has finished
@@ -144,6 +151,3 @@ app.on('activate', () => {
     createWindow()
   }
 })
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.

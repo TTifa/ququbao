@@ -24,5 +24,5 @@ notificationButton.addEventListener('click', () => {
 })
 const scButton = document.getElementById('screenshot')
 scButton.addEventListener('click', () => {
-  ipcRenderer.send('screen-shot', 'hello')
+  ipcRenderer.send('global-shortcut-capture', 1)
 })
