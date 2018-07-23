@@ -3,7 +3,7 @@
   "productName": "ququbao",
   "version": "1.0.0",
   "description": "ququbao pc application",
-  "main": "src/index.js",
+  "main": "src/main/index.js",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",

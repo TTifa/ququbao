@@ -25,9 +25,5 @@ module.exports = {
         format: 'UFLO'
       }
     }
-  ],
-  github_repository: {
-    'owner': '',
-    'name': ''
-  }
+  ]
 }
