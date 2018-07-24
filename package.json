@@ -6,9 +6,8 @@
   "main": "src/main/index.js",
   "scripts": {
     "start": "electron-forge start",
-    "pack:osx":"electron-forge package --sign='Developer ID Application:'",
-    "package": "electron-forge package",
-    "package32": "electron-forge package --arch=ia32",
+    "pack":"electron-forge package",
+    "pack32": "electron-forge package --arch=ia32",
     "make": "electron-forge make",
     "make32": "electron-forge make --arch=ia32",
     "publish": "electron-forge publish",

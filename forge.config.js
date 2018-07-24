@@ -1,7 +1,11 @@
 module.exports = {
   packagerConfig: {
     packageManager: 'npm',
-    icon: 'src/assets/icon/ququbao.ico'
+    icon: 'src/assets/icon/ququbao.ico',
+    appCopyright: 'Copyright © 2018 farwind',
+    osxSign: {
+      identity: 'Developer ID Application:'
+    }
   },
   makers: [
     {
