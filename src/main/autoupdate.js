@@ -1,11 +1,10 @@
 
 const { autoUpdater, dialog } = require('electron')
-const config = require('./package.json')
 module.exports = ququbao => () => {
-  // const platform = `${process.platform}_${process.arch}`
+  sendMessage(ququbao.$mainWin, ququbao.$config.version)
   var feedUrl = 'http://owrlb7i7j.bkt.clouddn.com/ququbao'
   if (process.platform === 'darwin') {
-    autoUpdater.setFeedURL(`http://116.62.37.221:6801/api/test/get?v=${config.version}`)
+    autoUpdater.setFeedURL(`http://116.62.37.221:6801/api/test/get?v=${ququbao.$config.version}`)
   } else {
     autoUpdater.setFeedURL(`${feedUrl}/${process.platform}/latest`)
   }

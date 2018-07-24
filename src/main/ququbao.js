@@ -1,4 +1,5 @@
 const {app, ipcMain, BrowserWindow} = require('electron')
+const path = require('path')
 const tray = require('./tray')
 const Notify = require('./notify')
 const mainWin = require('./mainWin')
@@ -15,17 +16,17 @@ module.exports = class Ququbao {
           if (app.makeSingleInstance(() => this.showMainWin())) {
             return app.quit()
           }
+
           // 移除窗口菜单
           // Menu.setApplicationMenu(null)
           this.initMainWin()
           this.initTray()
 
           this.$mainWin.webContents.on('did-finish-load', () => {
-            this.$mainWin.webContents.send('ping', process.version)
             this.$mainWin.webContents.send('ping', process.argv[1])
+            this.initUpdate()
           })
 
-          this.initUpdate()
           this.initNotify()
           this.initScreenCapture()
           this.bindShortcut()
@@ -38,7 +39,7 @@ module.exports = class Ququbao {
    * @return {Promise} setting
    */
   async init () {
-
+    this.$config = require(path.join(app.getAppPath(), './package.json'))
   }
 
   /**
