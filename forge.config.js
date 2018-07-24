@@ -4,7 +4,7 @@ module.exports = {
     icon: 'src/assets/icon/ququbao.ico',
     appCopyright: 'Copyright © 2018 farwind',
     osxSign: {
-      identity: 'Developer ID Application:'
+      identity: 'Developer ID Application: Fuzhou nethook network information service co,.ltd (XHAGFEHJC8)'
     }
   },
   makers: [
