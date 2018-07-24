@@ -66,7 +66,7 @@ module.exports = ququbao => () => {
   })
 
   // 加载URL地址
-  $win.loadURL(path.join(app.getAppPath(), './src/page/index/index.html'))
+  $win.loadURL(`file://${path.join(app.getAppPath(), './src/page/index/index.html')}`)
   $win.webContents.openDevTools()
   return $win
 }
